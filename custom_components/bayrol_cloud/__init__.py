@@ -1,9 +1,9 @@
 """The Bayrol Pool Controller integration."""
 from __future__ import annotations
 
+import asyncio
 import logging
 import aiohttp
-import async_timeout
 import voluptuous as vol
 from datetime import timedelta
 from typing import Any
@@ -99,7 +99,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     async def async_update_data():
         """Fetch data from API."""
         try:
-            async with async_timeout.timeout(30):
+            async with asyncio.timeout(30):
                 retry_count = 0
                 max_retries = 3
                 last_error = None

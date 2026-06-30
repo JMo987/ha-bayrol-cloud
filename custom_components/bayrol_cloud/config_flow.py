@@ -10,8 +10,8 @@ import voluptuous as vol
 import aiohttp
 
 from homeassistant import config_entries
+from homeassistant.config_entries import ConfigFlowResult
 from homeassistant.core import HomeAssistant, callback
-from homeassistant.data_entry_flow import FlowResult
 from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.const import CONF_USERNAME, CONF_PASSWORD
@@ -189,7 +189,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
     async def async_step_user(
         self, user_input: dict[str, Any] | None = None
-    ) -> FlowResult:
+    ) -> ConfigFlowResult:
         """Handle the initial step."""
         errors: dict[str, str] = {}
 
@@ -228,7 +228,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         
     async def async_step_select_controller(
         self, user_input: dict[str, Any] | None = None
-    ) -> FlowResult:
+    ) -> ConfigFlowResult:
         """Handle controller selection."""
         errors: dict[str, str] = {}
         
@@ -264,7 +264,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         
     async def async_step_controller(
         self, user_input: dict[str, Any] | None = None
-    ) -> FlowResult:
+    ) -> ConfigFlowResult:
         """Handle manual controller ID entry."""
         errors: dict[str, str] = {}
         
@@ -299,7 +299,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         
     async def async_step_controller_settings(
         self, user_input: dict[str, Any] | None = None
-    ) -> FlowResult:
+    ) -> ConfigFlowResult:
         """Handle settings password entry for a specific controller."""
         errors: dict[str, str] = {}
         
@@ -361,7 +361,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         """Create the options flow."""
         return OptionsFlowHandler(config_entry)
         
-    async def async_step_import(self, user_input: dict[str, Any] | None = None) -> FlowResult:
+    async def async_step_import(self, user_input: dict[str, Any] | None = None) -> ConfigFlowResult:
         """Handle import from configuration.yaml."""
         return await self.async_step_user(user_input)
 
@@ -374,7 +374,7 @@ class OptionsFlowHandler(config_entries.OptionsFlow):
 
     async def async_step_init(
         self, user_input: dict[str, Any] | None = None
-    ) -> FlowResult:
+    ) -> ConfigFlowResult:
         """Manage options."""
         config_entry = self.hass.config_entries.async_get_entry(self.entry_id)
         if config_entry is None:
